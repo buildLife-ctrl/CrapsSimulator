@@ -6,14 +6,15 @@ public class CrapsSimulator {
         Scanner scan = new Scanner(System.in);
         //variable
         Random rand = new Random();
-        int rollOne = 0;
+        int rollOne;
         int rollTwo;
-        int sum = 0;
+        int sum;
         int point = 0;
         String continAsk;
         boolean contin = true;
         boolean game;
         int turn;
+        boolean checks;
 
         System.out.println("Welcome to the Craps simulator!");
         System.out.println("Rule 1: If the sum of your rolls is 2, 3, or 12 it is called \"crapping out\" and the game is over with a loss.");
@@ -23,6 +24,8 @@ public class CrapsSimulator {
 
         //game
         do {
+            //resets every time contin is true
+            checks = false;
             game = true;
             turn = 1;
             while (game) {
@@ -35,6 +38,7 @@ public class CrapsSimulator {
                 sum = rollOne + rollTwo;
                 System.out.println("Sum: " + sum);
 
+                //first time through
                 if (turn == 1) {
                     if (sum == 2 || sum == 3 || sum == 12) {
                         System.out.println("Sorry, you crapped out.");
@@ -61,7 +65,7 @@ public class CrapsSimulator {
                         System.out.println();
                         game = false;
                     } else {
-                        System.out.println("Reroll. You must roll a " + point + " in order to win. A roll of 7 will result in a loss.");
+                        System.out.println("Click enter to reroll. You must roll a " + point + " in order to win. A roll of 7 will result in a loss.");
                         scan.nextLine();
                     }
                 }
@@ -69,10 +73,17 @@ public class CrapsSimulator {
 
             //asks if they want to continue
             System.out.println("Would you like to continue? Enter Y for yes or N for no.");
-            continAsk = scan.nextLine();
-            if (continAsk.equalsIgnoreCase("n")) {
-                contin = false;
-            }
+            do {
+                continAsk = scan.nextLine();
+                if (continAsk.equalsIgnoreCase("y") || continAsk.equalsIgnoreCase("n")) {
+                    checks = true;
+                    if (continAsk.equalsIgnoreCase("n")) {
+                        contin = false;
+                    }
+                } else {
+                    System.out.println("Please input the correct data point.");
+                }
+            } while (!checks);
             System.out.println();
         } while (contin);
     }
